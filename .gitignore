@@ -1,0 +1,29 @@
+# 依存関係ディレクトリ
+node_modules/
+
+# ログファイル
+logs
+*.log
+npm-debug.log*
+
+# ランタイムデータ
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# カバレッジディレクトリ
+coverage
+
+# npmキャッシュ
+.npm
+
+# 環境変数ファイル
+.env
+
+# vscodeの設定
+.vscode/
+
+# その他
+.DS_Store
+Thumbs.db
