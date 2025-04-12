@@ -1,0 +1,29 @@
+name: 'OpenAI Organization Costs'
+description: 'Fetch organization costs from OpenAI API'
+author: 'TakahashiIkki'
+
+branding:
+  icon: 'dollar-sign'
+  color: 'green'
+
+inputs:
+  openai_admin_key:
+    description: 'OpenAI Admin API Key'
+    required: true
+  date:
+    description: 'Single date in YYYY-MM-DD format (Optional). Will calculate from/to automatically.'
+    required: false
+  date_from:
+    description: 'Start date in YYYY-MM-DD format (Optional)'
+    required: false
+  date_to:
+    description: 'End date in YYYY-MM-DD format (Optional)'
+    required: false
+
+outputs:
+  costs:
+    description: 'Organization costs data'
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
