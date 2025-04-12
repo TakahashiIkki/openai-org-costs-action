@@ -38,6 +38,7 @@ jobs:
 | 入力パラメータ | 必須 | 説明 |
 |------------|------|------|
 | `openai_admin_key` | はい | OpenAIのAdmin API Key |
+| `date` | いいえ | 単一の日付（YYYY-MM-DD形式）。指定すると自動的に開始日と終了日を計算します |
 | `date_from` | いいえ | 開始日（YYYY-MM-DD形式） |
 | `date_to` | いいえ | 終了日（YYYY-MM-DD形式） |
 

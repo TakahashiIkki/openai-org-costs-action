@@ -10,6 +10,9 @@ inputs:
   openai_admin_key:
     description: 'OpenAI Admin API Key'
     required: true
+  date:
+    description: 'Single date in YYYY-MM-DD format (Optional). Will calculate from/to automatically.'
+    required: false
   date_from:
     description: 'Start date in YYYY-MM-DD format (Optional)'
     required: false
