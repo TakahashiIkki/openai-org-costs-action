@@ -29,6 +29,34 @@ function calculateDateRange(dateStr) {
 }
 
 /**
+ * YYYY-MM-DD形式の日付文字列をUnixタイムスタンプ（秒、UTC 00:00:00）に変換する関数
+ * @param {string} dateStr - YYYY-MM-DD形式の日付文字列
+ * @returns {number} Unixタイムスタンプ（秒）
+ */
+function dateToUnixTimestampStart(dateStr) {
+  const date = new Date(`${dateStr}T00:00:00Z`); // UTCとして解釈
+  if (isNaN(date.getTime())) {
+    throw new Error(`Invalid date format for start time: ${dateStr}. Expected format is YYYY-MM-DD`);
+  }
+  return Math.floor(date.getTime() / 1000);
+}
+
+/**
+ * YYYY-MM-DD形式の日付文字列を翌日のUnixタイムスタンプ（秒、UTC 00:00:00）に変換する関数（排他的終了時刻用）
+ * @param {string} dateStr - YYYY-MM-DD形式の日付文字列
+ * @returns {number} Unixタイムスタンプ（秒）
+ */
+function dateToUnixTimestampEnd(dateStr) {
+  const date = new Date(`${dateStr}T00:00:00Z`); // UTCとして解釈
+  if (isNaN(date.getTime())) {
+    throw new Error(`Invalid date format for end time: ${dateStr}. Expected format is YYYY-MM-DD`);
+  }
+  date.setUTCDate(date.getUTCDate() + 1);
+  return Math.floor(date.getTime() / 1000);
+}
+
+
+/**
  * メイン関数
  */
 async function run() {
@@ -52,11 +80,31 @@ async function run() {
     let url = 'https://api.openai.com/v1/organization/costs';
     
     const params = new URLSearchParams();
-    if (dateFrom) params.append('start_date', dateFrom);
-    if (dateTo) params.append('end_date', dateTo);
+    params.append('group_by', 'project_id');
+    params.append('bucket_width', '1d');
+
+    if (dateFrom) {
+      try {
+        const startTime = dateToUnixTimestampStart(dateFrom);
+        params.append('start_time', startTime.toString());
+      } catch (error) {
+        core.warning(`Failed to parse start date: ${error.message}`);
+      }
+    }
+    if (dateTo) {
+      try {
+        const endTime = dateToUnixTimestampEnd(dateTo);
+        params.append('end_time', endTime.toString());
+      } catch (error) {
+        core.warning(`Failed to parse end date: ${error.message}`);
+      }
+    }
+
+    const queryString = params.toString();
+
     
-    if ([...params].length > 0) {
-      url = `${url}?${params.toString()}`;
+    if (queryString) {
+      url = `${url}?${queryString}`;
     }
     
     core.debug(`Requesting: ${url}`);
