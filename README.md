@@ -22,7 +22,7 @@ jobs:
     steps:
       - name: Get OpenAI Organization Costs
         id: get-costs
-        uses: TakahashiIkki/openai-org-costs-action@v1
+        uses: TakahashiIkki/openai-org-costs-action@v0
         with:
           openai_admin_key: ${{ secrets.OPENAI_ADMIN_KEY }}
           date_from: '2023-01-01'  # オプション
