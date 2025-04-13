@@ -22,8 +22,9 @@ jobs:
     steps:
       - name: Get OpenAI Organization Costs
         id: get-costs
-        uses: TakahashiIkki/openai-org-costs-action@v0
+        uses: TakahashiIkki/openai-org-costs-action@v0 # 必要に応じてバージョンを更新してください
         with:
+          # 重要: APIキーは必ず GitHub Secrets を使用してください
           openai_admin_key: ${{ secrets.OPENAI_ADMIN_KEY }}
           date_from: '2023-01-01'  # オプション
           date_to: '2023-01-31'    # オプション
@@ -37,7 +38,7 @@ jobs:
 
 | 入力パラメータ | 必須 | 説明 |
 |------------|------|------|
-| `openai_admin_key` | はい | OpenAIのAdmin API Key |
+| `openai_admin_key` | はい | OpenAIのAdmin API Key。<br>**重要:** このキーは必ず [GitHub Secrets](https://docs.github.com/ja/actions/security-guides/using-secrets-in-github-actions) を使用して設定してください。ワークフローファイルに直接書き込まないでください。 |
 | `date` | いいえ | 単一の日付（YYYY-MM-DD形式）。指定すると自動的に開始日と終了日を計算します |
 | `date_from` | いいえ | 開始日（YYYY-MM-DD形式） |
 | `date_to` | いいえ | 終了日（YYYY-MM-DD形式） |

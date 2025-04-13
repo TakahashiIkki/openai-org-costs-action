@@ -35030,7 +35030,7 @@ function fixResponseChunkedTransferBadEnding(request, errorCallback) {
 function calculateDateRange(dateStr) {
   const date = new Date(dateStr);
   
-  if (isNaN(date.getTime())) {
+  if (Number.isNaN(date.getTime())) {
     throw new Error(`Invalid date format: ${dateStr}. Expected format is YYYY-MM-DD`);
   }
   
@@ -35056,7 +35056,7 @@ function calculateDateRange(dateStr) {
  */
 function dateToUnixTimestampStart(dateStr) {
   const date = new Date(`${dateStr}T00:00:00Z`); // UTCとして解釈
-  if (isNaN(date.getTime())) {
+  if (Number.isNaN(date.getTime())) {
     throw new Error(`Invalid date format for start time: ${dateStr}. Expected format is YYYY-MM-DD`);
   }
   return Math.floor(date.getTime() / 1000);
@@ -35069,7 +35069,7 @@ function dateToUnixTimestampStart(dateStr) {
  */
 function dateToUnixTimestampEnd(dateStr) {
   const date = new Date(`${dateStr}T00:00:00Z`); // UTCとして解釈
-  if (isNaN(date.getTime())) {
+  if (Number.isNaN(date.getTime())) {
     throw new Error(`Invalid date format for end time: ${dateStr}. Expected format is YYYY-MM-DD`);
   }
   date.setUTCDate(date.getUTCDate() + 1);
@@ -35083,6 +35083,7 @@ function dateToUnixTimestampEnd(dateStr) {
 async function run() {
   try {
     const apiKey = core.getInput('openai_admin_key', { required: true });
+    core.setSecret(apiKey); // Mask the API key in logs
     let dateFrom = core.getInput('date_from');
     let dateTo = core.getInput('date_to');
     const singleDate = core.getInput('date');
